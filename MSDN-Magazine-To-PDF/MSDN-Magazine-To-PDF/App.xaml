@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:MSDN_Magazine_To_PDF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/LightBlue.xaml"/>
+
+                <ResourceDictionary Source="Style/ListBoxStyle.xaml"/>
+                <ResourceDictionary Source="Style/ExpanderStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

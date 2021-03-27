@@ -8,5 +8,6 @@ namespace MSDN_Magazine_To_PDF.Model
 {
     public class Magazine
     {
+
     }
 }
