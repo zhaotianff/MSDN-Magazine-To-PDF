@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+
 namespace MSDN_Magazine_To_PDF
 {
     /// <summary>
@@ -13,5 +14,9 @@ namespace MSDN_Magazine_To_PDF
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+        }
     }
 }
