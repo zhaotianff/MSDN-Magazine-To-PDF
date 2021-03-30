@@ -8,6 +8,8 @@ namespace MSDN_Magazine_To_PDF.Model
 {
     public class Magazine
     {
+        public string Title { get; set; }
 
+        public string CoverUrl { get; set; }
     }
 }

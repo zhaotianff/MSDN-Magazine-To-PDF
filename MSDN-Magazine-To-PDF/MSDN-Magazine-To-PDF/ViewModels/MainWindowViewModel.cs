@@ -23,7 +23,10 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 
         public MainWindowViewModel()
         {
-
+            //Test
+            MagazineList.Add(new Magazine() { Title = "Jan", CoverUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/images/mt848698.cover_lrg(en-us,msdn.10).jpg" });
+            MagazineList.Add(new Magazine() { Title = "Feb", CoverUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/images/mt833264.cover_lg(en-us,msdn.10).png" });
+            MagazineList.Add(new Magazine() { Title = "Mar", CoverUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/images/mt833283.cover_lrg(en-us,msdn.10).jpg" });
         }
     }
 }
