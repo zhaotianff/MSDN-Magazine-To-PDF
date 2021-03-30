@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MSDN_Magazine_To_PDF
+namespace MSDN_Magazine_To_PDF.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
