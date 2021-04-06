@@ -9,5 +9,7 @@ namespace MSDN_Magazine_To_PDF.Util
     public class Urls
     {
         public const string BaseUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/msdn-magazine-issues";
+
+        public const string GetListUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/toc.json";
     }
 }
