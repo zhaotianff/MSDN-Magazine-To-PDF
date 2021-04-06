@@ -24,13 +24,9 @@
         <Grid Background="{DynamicResource BaseColor}">
             <StackPanel>
                 <Label Content=" MSDN-Magazine-To-PDF" FontSize="19" Margin="0,10" Foreground="{DynamicResource BaseWhite}" FontWeight="Bold" FontFamily="Arial"/>
-                <Expander Header="2019" Style="{StaticResource ExpanderStyle}">
-                    <ListBox Style="{StaticResource ListBoxStyle}" ItemsSource="{Binding MagazineList}">
-                      
-                    </ListBox>
-                </Expander>
-                <Expander Header="2018" Style="{StaticResource ExpanderStyle}"></Expander>
-                <Expander Header="2017" Style="{StaticResource ExpanderStyle}"></Expander>
+                <ItemsControl ItemsSource="{Binding MonthList}">
+                    
+                </ItemsControl>
             </StackPanel>
         </Grid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center"
