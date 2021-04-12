@@ -5,7 +5,7 @@ namespace MSDN_Magazine_To_PDF.Util
 {
     public class JsonUtil
     {
-        public T Desc<T>(string json) where T : class, new()
+        public static T Deserialize<T>(string json) where T : class, new()
         {
             try
             {

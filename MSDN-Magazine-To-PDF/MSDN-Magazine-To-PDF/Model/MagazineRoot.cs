@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,16 +28,19 @@ namespace MSDN_Magazine_To_PDF.Model
         /// <summary>
         /// ms.author
         /// </summary>
+        [JsonProperty("ms.author")]
         public string ms_author { get; set; }
 
         /// <summary>
         /// ms.prod
         /// </summary>
+        [JsonProperty("ms.prod")]
         public string ms_prod { get; set; }
 
         /// <summary>
         /// ms.topic
         /// </summary>
+        [JsonProperty("ms.topic")]
         public string ms_topic { get; set; }
     }
 
