@@ -43,7 +43,10 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 
             foreach (var item in magazineRoot.items.First()?.children)
             {
-                YearList.Add(new Expander() { Header = item.toc_title,Height = 50, Style = (Style)Application.Current.FindResource("ExpanderStyle") });
+                YearList.Add(new Expander() { Header = item.toc_title,Style = (Style)Application.Current.FindResource("ExpanderStyle") });
+
+                var tempJson = await WebUtil.GetHtml(string.Format(Urls.GetYearContent,item.toc_title));
+                var tempObj = JsonUtil.Deserialize<MagazineRoot>(tempJson);
             }
 
             ////Test

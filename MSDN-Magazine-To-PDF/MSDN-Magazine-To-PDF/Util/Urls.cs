@@ -11,5 +11,7 @@ namespace MSDN_Magazine_To_PDF.Util
         public const string BaseUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/msdn-magazine-issues";
 
         public const string GetListUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/toc.json";
+
+        public const string GetYearContent = "https://docs.microsoft.com/en-us/archive/msdn-magazine/{0}/toc.json";
     }
 }
