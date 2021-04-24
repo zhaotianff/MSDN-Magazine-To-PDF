@@ -22,14 +22,17 @@
         </Grid.ColumnDefinitions>
 
         <Grid Background="{DynamicResource BaseColor}">
-            <StackPanel>
-                <Label Content=" MSDN-Magazine-To-PDF" FontSize="19" Margin="0,10" Foreground="{DynamicResource BaseWhite}" FontWeight="Bold" FontFamily="Arial"/>
-                <ScrollViewer  ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding YearList}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                    </ItemsControl>
-                </ScrollViewer>
-            </StackPanel>
+            <Label Content=" MSDN-Magazine-To-PDF" FontSize="19" Foreground="{DynamicResource BaseWhite}" FontWeight="Bold" FontFamily="Arial" HorizontalAlignment="Left"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding YearList}">
+
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center"
               VerticalAlignment="Stretch"

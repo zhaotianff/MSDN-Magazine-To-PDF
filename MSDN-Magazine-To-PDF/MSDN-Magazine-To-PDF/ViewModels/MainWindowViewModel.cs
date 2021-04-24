@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using Prism.Commands;
 using Prism;
 using System.Collections.ObjectModel;
-using MSDN_Magazine_To_PDF.Model;
 using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Controls;
+
 using MSDN_Magazine_To_PDF.Util;
+using MSDN_Magazine_To_PDF.Model;
+
+using static MSDN_Magazine_To_PDF.Util.ResourceProc;
 
 namespace MSDN_Magazine_To_PDF.ViewModels
 {
@@ -43,10 +46,15 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 
             foreach (var item in magazineRoot.items.First()?.children)
             {
-                YearList.Add(new Expander() { Header = item.toc_title,Style = (Style)Application.Current.FindResource("ExpanderStyle") });
+                ListBox listBox = new ListBox();
+                listBox.Style = TryFindLocalResource("ListBoxStyle");
 
-                var tempJson = await WebUtil.GetHtml(string.Format(Urls.GetYearContent,item.toc_title));
-                var tempObj = JsonUtil.Deserialize<MagazineRoot>(tempJson);
+                foreach (var month in item.children)
+                {
+                    listBox.Items.Add(new ListItem() { Title = month.toc_title, Url = month.href });
+                }
+
+                YearList.Add(new Expander() { Header = item.toc_title,Style = (Style)Application.Current.FindResource("ExpanderStyle"),Content = listBox });
             }
 
             ////Test
@@ -56,6 +64,15 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 
             
             //YearList.Add(new System.Windows.Controls.Expander() { Header = "Test2", Style = (System.Windows.Style)System.Windows.Application.Current.FindResource("ExpanderStyle") });
+        }
+
+        private async Task<List<ListItem>> GetMonthDetail(string yearUrl)
+        {
+            var tempJson = await WebUtil.GetHtml(string.Format(Urls.GetYearContent, yearUrl));
+            var tempObj = JsonUtil.Deserialize<MagazineRoot>(tempJson);
+
+            var list = tempObj?.items.First().children.Select(x => new ListItem { Title = x.toc_title }).ToList();
+            return list;
         }
     }
 }
