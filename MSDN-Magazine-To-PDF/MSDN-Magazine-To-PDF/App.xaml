@@ -11,6 +11,7 @@
 
                 <ResourceDictionary Source="Style/ListBoxStyle.xaml"/>
                 <ResourceDictionary Source="Style/ExpanderStyle.xaml"/>
+                <ResourceDictionary Source="Style/ScrollViewerStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -7,63 +7,70 @@
         xmlns:blur="clr-namespace:TianXiaTech;assembly=BlurWindow"
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Height="720" Width="1280" Background="{DynamicResource BaseBackgroundColor}" 
+        Height="720" Width="1280"
         prism:ViewModelLocator.AutoWireViewModel="True" Name="main">
+    <Window.Background>
+        <ImageBrush ImageSource="../ba.jpeg" Stretch="UniformToFill"/>
+    </Window.Background>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Background="{DynamicResource BaseColor}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Label Content=" MSDN-Magazine-To-PDF" FontSize="19" Foreground="{DynamicResource BaseWhite}" FontWeight="Bold" FontFamily="Arial" HorizontalAlignment="Left"/>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                <ItemsControl ItemsSource="{Binding YearList}">
-
-                </ItemsControl>
-            </ScrollViewer>
+        <Grid Grid.Row="0">
+            <Label Content="MSDN-Magazine-To-PDF" FontSize="25" Margin="10,5" Foreground="White" FontWeight="Bold"/>
         </Grid>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Center"
-              VerticalAlignment="Stretch"
-              Background="#FF4C99C9" 
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding YearList}">
+
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center"
+              VerticalAlignment="Stretch" Background="Transparent"           
               ShowsPreview="True"
               Width="3"/>
-        <Grid Grid.Column="2">
-            <ListBox Grid.Column="2" Margin="3" ItemsSource="{Binding MagazineList}" Name="list">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="200"/>
-                                <RowDefinition Height="30"/>
-                            </Grid.RowDefinitions>
+            <Grid Grid.Column="2">
+                <ListBox Grid.Column="2" Margin="3" ItemsSource="{Binding MagazineList}" Name="list" Background="Transparent" BorderBrush="Transparent">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="200"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
 
-                            <Image Source="{Binding CoverUrl}" Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                            <Label Content="{Binding Title}" Grid.Row="2" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-        <GridSplitter Grid.Column="3" HorizontalAlignment="Center"
-              VerticalAlignment="Stretch"
-              Background="#FF4C99C9" 
+                                <Image Source="{Binding CoverUrl}" Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Title}" Grid.Row="2" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Center"
+              VerticalAlignment="Stretch"           
               ShowsPreview="True"
               Width="3"/>
-        <Grid>
-            <Frame Grid.Column="4"/>
+            <Grid>
+                <Frame Grid.Column="4"/>
+            </Grid>
         </Grid>
-
     </Grid>
 </blur:BlurWindow>
