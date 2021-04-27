@@ -48,6 +48,7 @@ namespace MSDN_Magazine_To_PDF.ViewModels
             {
                 ListBox listBox = new ListBox();
                 listBox.Style = TryFindLocalResource("ListBoxStyle");
+                listBox.SelectionChanged += MonthListBox_SelectionChanged;
 
                 foreach (var month in item.children)
                 {
@@ -56,14 +57,14 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 
                 YearList.Add(new Expander() { Header = item.toc_title,Style = (Style)Application.Current.FindResource("ExpanderStyle"),Content = listBox });
             }
+        }
 
-            ////Test
-            //MagazineList.Add(new Magazine() { Title = "Jan", CoverUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/images/mt848698.cover_lrg(en-us,msdn.10).jpg" });
-            //MagazineList.Add(new Magazine() { Title = "Feb", CoverUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/images/mt833264.cover_lg(en-us,msdn.10).png" });
-            //MagazineList.Add(new Magazine() { Title = "Mar", CoverUrl = "https://docs.microsoft.com/en-us/archive/msdn-magazine/images/mt833283.cover_lrg(en-us,msdn.10).jpg" });
-
-            
-            //YearList.Add(new System.Windows.Controls.Expander() { Header = "Test2", Style = (System.Windows.Style)System.Windows.Application.Current.FindResource("ExpanderStyle") });
+        private async void MonthListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = e.AddedItems[0] as ListItem;
+            var url = string.Format(Urls.GetYearContent, selectedItem.Url);
+            var json = await WebUtil.GetHtml(url);
+            var monthDetail = JsonUtil.Deserialize<MagazineRoot>(json);
         }
 
         private async Task<List<ListItem>> GetMonthDetail(string yearUrl)
