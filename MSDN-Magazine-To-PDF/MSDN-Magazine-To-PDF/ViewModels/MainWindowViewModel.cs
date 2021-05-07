@@ -14,6 +14,7 @@ using MSDN_Magazine_To_PDF.Util;
 using MSDN_Magazine_To_PDF.Model;
 
 using static MSDN_Magazine_To_PDF.Util.ResourceProc;
+using System.Globalization;
 
 namespace MSDN_Magazine_To_PDF.ViewModels
 {
@@ -21,6 +22,11 @@ namespace MSDN_Magazine_To_PDF.ViewModels
     {
         private ObservableCollection<Magazine> magazineList = new ObservableCollection<Magazine>();
         private ObservableCollection<System.Windows.Controls.Expander> yearList = new ObservableCollection<System.Windows.Controls.Expander>();
+        
+        private const string OVERVIEW_KEYWORD = "Overview";
+        private const string CONNECT_KEYWORD = "Connect";
+
+        private CultureInfo CurrentCulture { get; set; } = CultureInfo.CurrentCulture;
 
         public ObservableCollection<Magazine> MagazineList
         {
@@ -52,6 +58,9 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 
                 foreach (var month in item.children)
                 {
+                    if (month.toc_title == OVERVIEW_KEYWORD || month.toc_title == CONNECT_KEYWORD)
+                        continue;
+
                     listBox.Items.Add(new ListItem() { Title = month.toc_title, Url = month.href });
                 }
 
@@ -62,18 +71,15 @@ namespace MSDN_Magazine_To_PDF.ViewModels
         private async void MonthListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedItem = e.AddedItems[0] as ListItem;
-            var url = string.Format(Urls.GetYearContent, selectedItem.Url);
-            var json = await WebUtil.GetHtml(url);
-            var monthDetail = JsonUtil.Deserialize<MagazineRoot>(json);
+            var url = Urls.BaseUrl + selectedItem.Url;
+            var html = await WebUtil.GetHtml(url);
+            ExtractMonthContent(html);
         }
 
-        private async Task<List<ListItem>> GetMonthDetail(string yearUrl)
+        private async void ExtractMonthContent(string html)
         {
-            var tempJson = await WebUtil.GetHtml(string.Format(Urls.GetYearContent, yearUrl));
-            var tempObj = JsonUtil.Deserialize<MagazineRoot>(tempJson);
-
-            var list = tempObj?.items.First().children.Select(x => new ListItem { Title = x.toc_title }).ToList();
-            return list;
+            var main = await AngleSharpHelper.CssSelectorParse("#main td", html);
+            var articles = await AngleSharpHelper.CssSelectorParse("td",main?[0].OuterHtml);
         }
     }
 }

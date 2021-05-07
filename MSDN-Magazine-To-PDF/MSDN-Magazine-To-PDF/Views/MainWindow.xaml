@@ -48,17 +48,17 @@
               ShowsPreview="True"
               Width="3"/>
             <Grid Grid.Column="2">
-                <ListBox Grid.Column="2" Margin="3" ItemsSource="{Binding MagazineList}" Name="list" Background="Transparent" BorderBrush="Transparent">
+                <ListBox Width="400" Style="{StaticResource ListBoxStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Width="370">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="200"/>
-                                    <RowDefinition Height="30"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
 
-                                <Image Source="{Binding CoverUrl}" Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                                <Label Content="{Binding Title}" Grid.Row="2" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Title}" FontFamily="YaHei" FontSize="15" FontWeight="Bold" TextWrapping="WrapWithOverflow"/>
+                                <Image Stretch="UniformToFill" Source="{Binding ImageUrl}" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
