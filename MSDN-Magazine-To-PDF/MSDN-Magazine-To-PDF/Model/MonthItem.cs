@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MSDN_Magazine_To_PDF.Model
 {
-    public class ListItem
+    public class MonthItem
     {
         public string Title { get; set; }
 

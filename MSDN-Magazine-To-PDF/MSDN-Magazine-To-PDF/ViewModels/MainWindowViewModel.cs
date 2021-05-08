@@ -61,7 +61,7 @@ namespace MSDN_Magazine_To_PDF.ViewModels
                     if (month.toc_title == OVERVIEW_KEYWORD || month.toc_title == CONNECT_KEYWORD)
                         continue;
 
-                    listBox.Items.Add(new ListItem() { Title = month.toc_title, Url = month.href });
+                    listBox.Items.Add(new MonthItem() { Title = month.toc_title, Url = month.href });
                 }
 
                 YearList.Add(new Expander() { Header = item.toc_title,Style = (Style)Application.Current.FindResource("ExpanderStyle"),Content = listBox });
@@ -70,16 +70,54 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 
         private async void MonthListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedItem = e.AddedItems[0] as ListItem;
+            var selectedItem = e.AddedItems[0] as MonthItem;
             var url = Urls.BaseUrl + selectedItem.Url;
             var html = await WebUtil.GetHtml(url);
-            ExtractMonthContent(html);
+            ClearMagazines();
+            ExtractMagazines(html,selectedItem.Url);
         }
 
-        private async void ExtractMonthContent(string html)
+        private void ClearMagazines()
         {
-            var main = await AngleSharpHelper.CssSelectorParse("#main td", html);
-            var articles = await AngleSharpHelper.CssSelectorParse("td",main?[0].OuterHtml);
+            MagazineList.Clear();
+        }
+
+        private async void ExtractMagazines(string html,string url)
+        {          
+            var table = await AngleSharpHelper.CssSelectorParse("table", html);
+            var magazines = await AngleSharpHelper.CssSelectorParse("td", table.First().OuterHtml);
+
+            foreach (var item in magazines)
+            {
+                var magazine = new Magazine();
+                var pEle = await AngleSharpHelper.CssSelectorParse("p", item.OuterHtml);
+
+                if (pEle.Length != 2)
+                    continue;
+
+                magazine.Author = pEle.ElementAt(0).TextContent;
+                magazine.Description = pEle.ElementAt(1).TextContent;
+
+                var imgEle = await AngleSharpHelper.CssSelectorParse("img", item.OuterHtml);
+                if(imgEle != null)
+                {
+                    magazine.CoverUrl = Urls.BaseUrl + url + "/" + imgEle.ElementAt(0).Attributes["src"].Value;
+                }
+
+                var h2Ele = await AngleSharpHelper.CssSelectorParseSingle("h2", item.OuterHtml);
+                if(h2Ele != null)
+                {
+                    magazine.Title = h2Ele.TextContent;
+                }
+
+                var aEle = await AngleSharpHelper.CssSelectorParseSingle("a", item.OuterHtml);
+                if(aEle != null)
+                {
+                    magazine.LinkUrl = Urls.BaseUrl + url + "/" + aEle.Attributes["href"].Value;
+                }
+
+                MagazineList.Add(magazine);
+            }
         }
     }
 }

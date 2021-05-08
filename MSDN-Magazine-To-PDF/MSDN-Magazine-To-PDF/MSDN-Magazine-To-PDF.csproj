@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="ba.jpeg" />
+    <None Remove="dd.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="ba.jpeg" />
+    <Resource Include="dd.jpg" />
   </ItemGroup>
 
 </Project>

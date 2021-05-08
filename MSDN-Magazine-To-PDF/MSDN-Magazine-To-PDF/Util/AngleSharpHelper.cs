@@ -7,6 +7,15 @@ namespace MSDN_Magazine_To_PDF.Util
 {
     public class AngleSharpHelper
     {
+        public static async Task<IElement> CssSelectorParseSingle(string cssSelector, string html)
+        {
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(req => req.Content(html));
+            var cell = document.QuerySelector(cssSelector);
+            return cell;
+        }
+
         public static async Task<IHtmlCollection<IElement>> CssSelectorParse(string cssSelector,string html)
         {
             var config = Configuration.Default;

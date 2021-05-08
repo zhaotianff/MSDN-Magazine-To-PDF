@@ -10,7 +10,7 @@
         Height="720" Width="1280"
         prism:ViewModelLocator.AutoWireViewModel="True" Name="main">
     <Window.Background>
-        <ImageBrush ImageSource="../ba.jpeg" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="../dd.jpg" Stretch="UniformToFill"/>
     </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -48,17 +48,21 @@
               ShowsPreview="True"
               Width="3"/>
             <Grid Grid.Column="2">
-                <ListBox Width="400" Style="{StaticResource ListBoxStyle}">
+                <ListBox Style="{StaticResource ListBoxStyle}" ItemsSource="{Binding MagazineList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="370">
+                            <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
                                     <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
 
+                                <Image Stretch="UniformToFill" Source="{Binding CoverUrl}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding Title}" FontFamily="YaHei" FontSize="15" FontWeight="Bold" TextWrapping="WrapWithOverflow"/>
-                                <Image Stretch="UniformToFill" Source="{Binding ImageUrl}" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Author}" Grid.Row="2"/>
+                                <TextBlock Text="{Binding Description}" TextWrapping="WrapWithOverflow"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
