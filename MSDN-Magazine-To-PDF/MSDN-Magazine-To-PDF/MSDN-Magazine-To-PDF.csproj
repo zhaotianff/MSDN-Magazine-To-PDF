@@ -5,6 +5,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>MSDN_Magazine_To_PDF</RootNamespace>
     <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,8 @@
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.15.0" />
     <PackageReference Include="BlurWindow" Version="3.0.0" />
+    <PackageReference Include="CefSharp.Wpf" Version="90.6.50" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />

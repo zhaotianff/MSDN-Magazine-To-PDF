@@ -5,10 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSDN_Magazine_To_PDF"
         xmlns:blur="clr-namespace:TianXiaTech;assembly=BlurWindow"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:chrome="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
         Height="720" Width="1280"
         prism:ViewModelLocator.AutoWireViewModel="True" Name="main">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=chrome}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.Background>
         <ImageBrush ImageSource="../dd.jpg" Stretch="UniformToFill"/>
     </Window.Background>
@@ -48,7 +55,15 @@
               ShowsPreview="True"
               Width="3"/>
             <Grid Grid.Column="2">
-                <ListBox Style="{StaticResource ListBoxStyle}" ItemsSource="{Binding MagazineList}" Width="280" HorizontalAlignment="Center" Margin="10">
+                <ListBox Style="{StaticResource ListBoxStyle}" ItemsSource="{Binding MagazineList}" Width="280" HorizontalAlignment="Center" Margin="10" Name="list">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <!--https://docs.microsoft.com/zh-cn/dotnet/desktop/wpf/advanced/relativesource-markupextension?view=netframeworkdesktop-4.8-->
+                            <!--{Binding RelativeSource={x:Static RelativeSource.Self},Path=xxx}/-->
+                            <!--{Binding RelativeSource={RelativeSource TemplatedParent},Path=xxx}-->
+                            <prism:InvokeCommandAction Command="{Binding SelectMagazineCommand}"  CommandParameter="{Binding ElementName=list,Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Width="230" Margin="10">
@@ -74,8 +89,8 @@
               VerticalAlignment="Stretch"           
               ShowsPreview="True"
               Width="3"/>
-            <Grid>
-                <Frame Grid.Column="4"/>
+            <Grid Grid.Column="4">
+                <chrome:ChromiumWebBrowser x:Name="chrome"></chrome:ChromiumWebBrowser>
             </Grid>
         </Grid>
     </Grid>

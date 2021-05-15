@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Controls;
+using CefSharp;
 
 using MSDN_Magazine_To_PDF.Util;
 using MSDN_Magazine_To_PDF.Model;
@@ -20,11 +21,19 @@ namespace MSDN_Magazine_To_PDF.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        #region Field
         private ObservableCollection<Magazine> magazineList = new ObservableCollection<Magazine>();
         private ObservableCollection<System.Windows.Controls.Expander> yearList = new ObservableCollection<System.Windows.Controls.Expander>();
-        
+        private string cc = "";    
+        #endregion
+
+        #region Const
         private const string OVERVIEW_KEYWORD = "Overview";
         private const string CONNECT_KEYWORD = "Connect";
+        #endregion
+
+        #region Property
+        private CefSharp.Wpf.ChromiumWebBrowser ChromiumWebBrowser { get; set; }
 
         private CultureInfo CurrentCulture { get; set; } = CultureInfo.CurrentCulture;
 
@@ -40,9 +49,24 @@ namespace MSDN_Magazine_To_PDF.ViewModels
             set => SetProperty(ref yearList, value, "YearList");
         }
 
+        public string CC
+        {
+            get => cc;
+            set => SetProperty(ref cc,value,"CC");
+        }
+        #endregion
+
+        #region Command
+        public DelegateCommand<object> SelectMagazineCommand { get; private set; }
+        public DelegateCommand<CefSharp.Wpf.ChromiumWebBrowser> LoadedCommand { get; private set; }
+        #endregion
+
         public MainWindowViewModel()
         {
             LoadMagazineList();
+
+            SelectMagazineCommand = new DelegateCommand<object>(SelectMagazine);
+            LoadedCommand = new DelegateCommand<CefSharp.Wpf.ChromiumWebBrowser>(Loaded);
         }
 
         private async void LoadMagazineList()
@@ -117,6 +141,22 @@ namespace MSDN_Magazine_To_PDF.ViewModels
                 }
 
                 MagazineList.Add(magazine);
+            }
+        }
+
+        private void Loaded(CefSharp.Wpf.ChromiumWebBrowser chromiumWebBrowser)
+        {
+            ChromiumWebBrowser = chromiumWebBrowser;
+        }
+
+        private async void SelectMagazine(object magazineObj)
+        {
+            if(magazineObj != null && magazineObj is Magazine magazine)
+            {
+                var html = await WebUtil.GetHtml(magazine.LinkUrl);
+                var main = await AngleSharpHelper.CssSelectorParseSingle("#main", html);
+
+                ChromiumWebBrowser?.LoadHtml(main.OuterHtml);
             }
         }
     }
