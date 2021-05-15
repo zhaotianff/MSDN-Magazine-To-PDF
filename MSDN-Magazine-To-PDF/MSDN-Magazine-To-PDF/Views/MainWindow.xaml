@@ -26,7 +26,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
@@ -48,10 +48,10 @@
               ShowsPreview="True"
               Width="3"/>
             <Grid Grid.Column="2">
-                <ListBox Style="{StaticResource ListBoxStyle}" ItemsSource="{Binding MagazineList}">
+                <ListBox Style="{StaticResource ListBoxStyle}" ItemsSource="{Binding MagazineList}" Width="280" HorizontalAlignment="Center" Margin="10">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Width="230" Margin="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition/>
@@ -59,10 +59,12 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <Image Stretch="UniformToFill" Source="{Binding CoverUrl}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding Title}" FontFamily="YaHei" FontSize="15" FontWeight="Bold" TextWrapping="WrapWithOverflow"/>
+                                <Grid Grid.Row="0">
+                                    <Image Stretch="UniformToFill" Source="{Binding CoverUrl}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <TextBlock Text="{Binding Title}" FontFamily="YaHei" FontSize="15" Grid.Row="1" FontWeight="Bold" TextWrapping="WrapWithOverflow"/>
                                 <TextBlock Text="{Binding Author}" Grid.Row="2"/>
-                                <TextBlock Text="{Binding Description}" TextWrapping="WrapWithOverflow"/>
+                                <TextBlock Text="{Binding Description}" TextWrapping="WrapWithOverflow" Grid.Row="3"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
