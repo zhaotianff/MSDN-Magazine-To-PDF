@@ -8,7 +8,7 @@ namespace MSDN_Magazine_To_PDF.Util
 {
     public class ResourceProc
     {
-        public static System.Windows.Style TryFindLocalResource(string key)
+        public static System.Windows.Style TryFindLocalStyle(string key)
         {
             var resource = System.Windows.Application.Current.TryFindResource(key);
 

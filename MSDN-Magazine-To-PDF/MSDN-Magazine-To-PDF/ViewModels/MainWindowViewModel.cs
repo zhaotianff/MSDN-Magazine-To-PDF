@@ -77,7 +77,7 @@ namespace MSDN_Magazine_To_PDF.ViewModels
             foreach (var item in magazineRoot.items.First()?.children)
             {
                 ListBox listBox = new ListBox();
-                listBox.Style = TryFindLocalResource("ListBoxStyle");
+                listBox.Style = TryFindLocalStyle("ListBoxStyle");
                 listBox.SelectionChanged += MonthListBox_SelectionChanged;
 
                 foreach (var month in item.children)
