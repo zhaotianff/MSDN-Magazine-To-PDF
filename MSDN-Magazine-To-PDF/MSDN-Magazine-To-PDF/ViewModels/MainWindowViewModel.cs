@@ -106,8 +106,22 @@ namespace MSDN_Magazine_To_PDF.ViewModels
             MagazineList.Clear();
         }
 
-        private async void ExtractMagazines(string html,string url)
-        {          
+        private void ExtractMagazines(string html, string url)
+        {
+            //2013及以前的年份网页格式不一样，需要另外处理
+            //通过接口获取出来的只有标题，没有描述及作者
+            if (RegexUtil.ExtractNumber(url) <= 2013)
+            {
+                ExtractMagazinesBefore2013(html, url);
+            }
+            else
+            {
+                ExtractMagazineAfter2013(html, url);
+            }
+        }
+
+        private async void ExtractMagazineAfter2013(string html,string url)
+        {
             var table = await AngleSharpHelper.CssSelectorParse("table", html);
             var magazines = await AngleSharpHelper.CssSelectorParse("td", table.First().OuterHtml);
 
@@ -123,25 +137,32 @@ namespace MSDN_Magazine_To_PDF.ViewModels
                 magazine.Description = pEle.ElementAt(1).TextContent;
 
                 var imgEle = await AngleSharpHelper.CssSelectorParse("img", item.OuterHtml);
-                if(imgEle != null)
+                if (imgEle != null)
                 {
                     magazine.CoverUrl = Urls.BaseUrl + url + "/" + imgEle.ElementAt(0).Attributes["src"].Value;
                 }
 
                 var h2Ele = await AngleSharpHelper.CssSelectorParseSingle("h2", item.OuterHtml);
-                if(h2Ele != null)
+                if (h2Ele != null)
                 {
                     magazine.Title = h2Ele.TextContent;
                 }
 
                 var aEle = await AngleSharpHelper.CssSelectorParseSingle("a", item.OuterHtml);
-                if(aEle != null)
+                if (aEle != null)
                 {
                     magazine.LinkUrl = Urls.BaseUrl + url + "/" + aEle.Attributes["href"].Value;
                 }
 
                 MagazineList.Add(magazine);
             }
+        }
+
+        private async void ExtractMagazinesBefore2013(string html,string url)
+        {
+            var main = await AngleSharpHelper.CssSelectorParseSingle("#main", html);
+            var magazines = await AngleSharpHelper.CssSelectorParse("p", main.OuterHtml);
+
         }
 
         private void Loaded(CefSharp.Wpf.ChromiumWebBrowser chromiumWebBrowser)
